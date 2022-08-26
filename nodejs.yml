@@ -34,3 +34,4 @@
         docker tag ${COMPONENT}:latest 041583668323.dkr.ecr.us-east-1.amazonaws.com/${COMPONENT}:latest
         docker push 041583668323.dkr.ecr.us-east-1.amazonaws.com/${COMPONENT}:latest
       displayName : 'Docker Push Image to ECR'
+
