@@ -13,7 +13,7 @@
 #    docker push 041583668323.dkr.ecr.us-east-1.amazonaws.com/cart:latest
 #  displayName: 'Docker Push Image to ECR'
 
-
+stages:
 - stage: CI
   jobs:
   - job: CI
