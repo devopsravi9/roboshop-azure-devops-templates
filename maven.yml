@@ -1,0 +1,23 @@
+
+stages:
+- stage: CI
+  jobs:
+  - job: CI
+    steps :
+    - script : mvn clean package && mv target/${COMPONENT}-1.0.jar ${COMPONENT}.jar
+      displayName : 'Download Maven Dependencies'
+
+    - script : docker build -t ${COMPONENT} .
+      displayName : 'Docker Build'
+
+- stage: DockerUpload
+  condition : succeeded()
+  jobs:
+  - job: DockerUpload
+    steps:
+    - script : |
+        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 041583668323.dkr.ecr.us-east-1.amazonaws.com
+        docker tag ${COMPONENT}:latest 041583668323.dkr.ecr.us-east-1.amazonaws.com/${COMPONENT}:latest
+        docker push 041583668323.dkr.ecr.us-east-1.amazonaws.com/${COMPONENT}:latest
+      displayName : 'Docker Push Image to ECR'
+
